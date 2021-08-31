@@ -43,6 +43,10 @@ load_dotenv('config.env')
 
 alive = subprocess.Popen(["python3", "alive.py"])
 
+subprocess.run(["mkdir", "-p", "qBittorrent/config"])
+subprocess.run(["cp", "qBittorrent.conf", "qBittorrent/config/qBittorrent.conf"])
+subprocess.run(["qbittorrent-nox", "-d", "--profile=."])
+
 Interval = []
 
 
@@ -81,7 +85,7 @@ def get_client() -> qba.TorrentsAPIMixIn:
     qb_client = qba.Client(host="localhost", port=8090, username="admin", password="adminadmin")
     try:
         qb_client.auth_log_in()
-        qb_client.application.set_preferences({"disk_cache":64, "incomplete_files_ext":True, "max_connec":3000, "max_connec_per_torrent":300, "async_io_threads":8, "preallocate_all":True, "upnp":True, "dl_limit":-1, "up_limit":-1, "dht":True, "pex":True, "lsd":True, "encryption":0, "queueing_enabled":True, "max_active_downloads":15, "max_active_torrents":50, "dont_count_slow_torrents":True, "bittorrent_protocol":0, "recheck_completed_torrents":True, "enable_multi_connections_from_same_ip":True, "slow_torrent_dl_rate_threshold":100,"slow_torrent_inactive_timer":600})
+        #qb_client.application.set_preferences({"disk_cache":64, "incomplete_files_ext":True, "max_connec":3000, "max_connec_per_torrent":300, "async_io_threads":8, "preallocate_all":True, "upnp":True, "dl_limit":-1, "up_limit":-1, "dht":True, "pex":True, "lsd":True, "encryption":0, "queueing_enabled":True, "max_active_downloads":15, "max_active_torrents":50, "dont_count_slow_torrents":True, "bittorrent_protocol":0, "recheck_completed_torrents":True, "enable_multi_connections_from_same_ip":True, "slow_torrent_dl_rate_threshold":100,"slow_torrent_inactive_timer":600})
         return qb_client
     except qba.LoginFailed as e:
         LOGGER.error(str(e))
@@ -270,50 +274,32 @@ except KeyError:
     BUTTON_SIX_URL = None
 try:
     STOP_DUPLICATE = getConfig('STOP_DUPLICATE')
-    if STOP_DUPLICATE.lower() == 'true':
-        STOP_DUPLICATE = True
-    else:
-        STOP_DUPLICATE = False
+    STOP_DUPLICATE = STOP_DUPLICATE.lower() == 'true'
 except KeyError:
     STOP_DUPLICATE = False
 try:
     VIEW_LINK = getConfig('VIEW_LINK')
-    if VIEW_LINK.lower() == 'true':
-        VIEW_LINK = True
-    else:
-        VIEW_LINK = False
+    VIEW_LINK = VIEW_LINK.lower() == 'true'
 except KeyError:
     VIEW_LINK = False
 try:
     IS_TEAM_DRIVE = getConfig('IS_TEAM_DRIVE')
-    if IS_TEAM_DRIVE.lower() == 'true':
-        IS_TEAM_DRIVE = True
-    else:
-        IS_TEAM_DRIVE = False
+    IS_TEAM_DRIVE = IS_TEAM_DRIVE.lower() == 'true'
 except KeyError:
     IS_TEAM_DRIVE = False
 try:
     USE_SERVICE_ACCOUNTS = getConfig('USE_SERVICE_ACCOUNTS')
-    if USE_SERVICE_ACCOUNTS.lower() == 'true':
-        USE_SERVICE_ACCOUNTS = True
-    else:
-        USE_SERVICE_ACCOUNTS = False
+    USE_SERVICE_ACCOUNTS = USE_SERVICE_ACCOUNTS.lower() == 'true'
 except KeyError:
     USE_SERVICE_ACCOUNTS = False
 try:
     BLOCK_MEGA_FOLDER = getConfig('BLOCK_MEGA_FOLDER')
-    if BLOCK_MEGA_FOLDER.lower() == 'true':
-        BLOCK_MEGA_FOLDER = True
-    else:
-        BLOCK_MEGA_FOLDER = False
+    BLOCK_MEGA_FOLDER = BLOCK_MEGA_FOLDER.lower() == 'true'
 except KeyError:
     BLOCK_MEGA_FOLDER = False
 try:
     BLOCK_MEGA_LINKS = getConfig('BLOCK_MEGA_LINKS')
-    if BLOCK_MEGA_LINKS.lower() == 'true':
-        BLOCK_MEGA_LINKS = True
-    else:
-        BLOCK_MEGA_LINKS = False
+    BLOCK_MEGA_LINKS = BLOCK_MEGA_LINKS.lower() == 'true'
 except KeyError:
     BLOCK_MEGA_LINKS = False
 try:
@@ -326,10 +312,7 @@ except KeyError:
     SHORTENER_API = None
 try:
     IGNORE_PENDING_REQUESTS = getConfig("IGNORE_PENDING_REQUESTS")
-    if IGNORE_PENDING_REQUESTS.lower() == 'true':
-        IGNORE_PENDING_REQUESTS = True
-    else:
-        IGNORE_PENDING_REQUESTS = False
+    IGNORE_PENDING_REQUESTS = IGNORE_PENDING_REQUESTS.lower() == 'true'
 except KeyError:
     IGNORE_PENDING_REQUESTS = False
 try:
@@ -341,10 +324,7 @@ except KeyError:
     BASE_URL = None
 try:
     IS_VPS = getConfig('IS_VPS')
-    if IS_VPS.lower() == 'true':
-        IS_VPS = True
-    else:
-        IS_VPS = False
+    IS_VPS = IS_VPS.lower() == 'true'
 except KeyError:
     IS_VPS = False
 try:
